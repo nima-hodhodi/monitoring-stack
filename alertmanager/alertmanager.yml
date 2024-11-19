@@ -1,0 +1,19 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname']
+  receiver: 'telegram-notifications'
+  group_wait: 10s
+  group_interval: 5m
+  repeat_interval: 1h
+
+receivers:
+  - name: 'telegram-notifications'
+    telegram_configs:
+      - bot_token: '7689760346:AAF1-kLDK973P02WUcYQPIz0RgiTMCMH9fo'
+        chat_id: 5095215418
+        message: |
+          {{ .CommonAnnotations }}
+          {{ .CommonLabels }}
+          

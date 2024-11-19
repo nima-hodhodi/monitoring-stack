@@ -1,16 +1,16 @@
 services:
   prometheus:
-    image: docker.arvancloud.ir/prom/prometheus:latest
+    image: prom/prometheus:latest
     container_name: prometheus
     volumes:
       - ./prometheus:/etc/prometheus
     ports:
       - "9090:9090"
     networks:
-      - monitoring    
+      - prometheus   
 
   grafana:
-    image: docker.arvancloud.ir/grafana/grafana:latest
+    image: grafana/grafana:latest
     container_name: grafana
     ports:
       - "3000:3000"
@@ -19,30 +19,34 @@ services:
     depends_on:
       - prometheus
     networks:
-      - monitoring    
+      - prometheus    
+    volumes:
+      - ./grafana:/var/lib/grafana
 
   node-exporter:
-    image: docker.arvancloud.ir/prom/node-exporter:latest
+    image: prom/node-exporter:latest
     container_name: node-exporter
     ports:
       - "9100:9100"
     deploy:
       mode: global
     networks:
-      - monitoring    
+      - prometheus    
     volumes:
       - /:/host:ro    
 
   alertmanager:
-    image: docker.arvancloud.ir/prom/alertmanager:latest
+    image: prom/alertmanager:latest
     container_name: alertmanager
     ports:
       - "9093:9093"
     networks:
-      - monitoring
+      - prometheus
+    volumes:
+      - ./alertmanager:/etc/alertmanager    
 
 networks:
-  monitoring:
+  prometheus:
     external: true
-    name: monitoring  
+    name: prometheus  
 

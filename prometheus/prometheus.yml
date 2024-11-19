@@ -5,7 +5,7 @@ scrape_configs:
   - job_name: 'node_exporter'
     static_configs:
       - targets:
-        - "37.152.178.189:9100"
+        - "91.228.186.49:9100"
 
 alerting:
   alertmanagers:
@@ -13,5 +13,5 @@ alerting:
         - targets: ["alertmanager:9093"]
 
 rule_files:
-  - "alert_rules.yml"
+  - "/etc/prometheus/alert_rules.yml"
 
